@@ -1,17 +1,25 @@
 pipeline {
     agent any
 
+    parameters {
+        string(
+            name: 'APP_VERSION',
+            defaultValue: 'v1',
+            description: 'Application Version'
+        )
+    }
+
     stages {
 
         stage('Build') {
             steps {
-                echo 'Build Stage from GitHub Jenkinsfile'
+                echo "Building Version: ${params.APP_VERSION}"
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Test Stage from GitHub Jenkinsfile'
+                echo "Testing Version: ${params.APP_VERSION}"
             }
         }
 
