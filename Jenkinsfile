@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     parameters {
-        choice(
-            name: 'ENV',
-            choices: ['dev', 'test', 'prod'],
-            description: 'Select Environment'
+        booleanParam(
+            name: 'RUN_TESTS',
+            defaultValue: true,
+            description: 'Run Test Stage'
         )
     }
 
@@ -17,16 +17,16 @@ pipeline {
             }
         }
 
-        stage('Deploy to PROD') {
+        stage('Test') {
 
             when {
                 expression {
-                    params.ENV == 'prod'
+                    params.RUN_TESTS
                 }
             }
 
             steps {
-                echo "Deploying to PROD Server"
+                echo "Running Tests"
             }
         }
     }
