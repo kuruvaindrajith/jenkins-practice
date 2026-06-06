@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     parameters {
-        string(
-            name: 'APP_VERSION',
-            defaultValue: 'v1',
-            description: 'Application Version'
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'test', 'prod'],
+            description: 'Select Environment'
         )
     }
 
@@ -13,15 +13,21 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Building Version: ${params.APP_VERSION}"
+                echo "Building Application"
             }
         }
 
-        stage('Test') {
+        stage('Deploy to PROD') {
+
+            when {
+                expression {
+                    params.ENV == 'prod'
+                }
+            }
+
             steps {
-                echo "Testing Version: ${params.APP_VERSION}"
+                echo "Deploying to PROD Server"
             }
         }
-
     }
 }
