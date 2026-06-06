@@ -1,33 +1,29 @@
 pipeline {
     agent any
 
-    parameters {
-        booleanParam(
-            name: 'RUN_TESTS',
-            defaultValue: true,
-            description: 'Run Test Stage'
-        )
-    }
-
     stages {
 
         stage('Build') {
             steps {
-                echo "Building Application"
+                echo 'Building Application'
             }
         }
 
-        stage('Test') {
+    }
 
-            when {
-                expression {
-                    params.RUN_TESTS
-                }
-            }
+    post {
 
-            steps {
-                echo "Running Tests"
-            }
+        always {
+            echo 'Pipeline Finished'
         }
+
+        success {
+            echo 'Build Successful'
+        }
+
+        failure {
+            echo 'Build Failed'
+        }
+
     }
 }
